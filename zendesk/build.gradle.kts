@@ -51,7 +51,7 @@ afterEvaluate {
                 from(components["release"])
 
                 groupId = "com.github.modulesglobal"
-                artifactId = "image-preview-compose"
+                artifactId = "zendesk"
                 version = "1.0"
             }
         }
