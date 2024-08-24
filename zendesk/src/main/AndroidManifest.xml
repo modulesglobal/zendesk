@@ -6,12 +6,12 @@
     <application>
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.jfrog.zendesk.androidx-startup"
+            android:authorities="com.org.zendesk.androidx-startup"
             android:exported="false"
             tools:node="merge"
             tools:replace="android:authorities"
             >
-            <meta-data  android:name="com.org.zendesk"
+            <meta-data  android:name="com.org.zendesk.MyApp"
                 android:value="androidx.startup" />
         </provider>
     </application>
