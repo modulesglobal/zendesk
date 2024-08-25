@@ -12,15 +12,27 @@ import com.org.zendesk.messaging.ZendeskMessaging
 import com.org.zendesk.messaging.ZendeskMessagingImpl
 
 private object ModalHelper {
-    fun showModal(context: Context) {
-        val inflater = LayoutInflater.from( context );
-        val view = inflater.inflate( R.layout.message_window , null);
-        val alertDialog =  AlertDialog.Builder(context, R.style.CustomAlertDialog )
-            .setView( view )
-            .setCancelable(false)
-            .create()
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
+    private var alertDialog: AlertDialog? = null
+    fun showModal(activity: Activity) {
+        if( alertDialog == null ){
+            activity.runOnUiThread {
+                val inflater = LayoutInflater.from( activity );
+                val view = inflater.inflate( R.layout.message_window , null);
+                alertDialog =  AlertDialog.Builder(activity, R.style.CustomAlertDialog )
+                    .setView( view )
+                    .setCancelable(false)
+                    .create()
+                alertDialog!!.setCanceledOnTouchOutside(false);
+                alertDialog!!.show();
+            }
+        }
+    }
+
+    fun dismissModal(){
+        alertDialog?.let {
+            it.dismiss()
+            alertDialog = null
+        }
     }
 }
 
@@ -40,11 +52,17 @@ class MyApp : Initializer<Unit> {
     private fun listenLifeCicyleOfApp(context: Context){
         (context.applicationContext as? Application)?.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityResumed(activity: Activity) {
-                zendeskMessaging!!.initializeChannel();
-                zendeskMessaging!!.subscribeToChannel {
-                    Log.i("PUSHER", "Message received ${it.data}")
+                zendeskMessaging!!.subscribeToChannel();
+                zendeskMessaging!!.subscribeToEvent { it ->
+                    it.data.let {
+                         if( it.toInt() == 1 ){
+                             ModalHelper.showModal(activity)
+                         }else{
+                            ModalHelper.dismissModal();
+                         }
+                    }
                 }
-                ModalHelper.showModal(activity)
+
             }
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
             override fun onActivityStarted(activity: Activity) {}

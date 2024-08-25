@@ -37,8 +37,8 @@ android {
 }
 
 dependencies {
-    implementation("com.pusher:pusher-java-client:2.4.2")
-    implementation("androidx.startup:startup-runtime:1.1.1")
+
+    implementation(project(":zendesk"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

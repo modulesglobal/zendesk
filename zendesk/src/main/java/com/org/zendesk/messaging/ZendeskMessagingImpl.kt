@@ -28,17 +28,24 @@ class ZendeskMessagingImpl() : ZendeskMessaging {
         pusher!!.connect(  ConnectionEventListenerImpl()  )
     }
 
-    override fun initializeChannel() {
+    override fun subscribeToChannel() {
         if ( pusher == null ){
             throw Exception("No initialized pusher");
         }
-        channel = pusher!!.subscribe("my-channel");
+        if( channel == null ){
+            channel = pusher!!.subscribe("my-channel");
+        }else{
+            if(!channel!!.isSubscribed){
+                channel = pusher!!.subscribe("my-channel");
+            }
+        }
     }
 
-    override fun subscribeToChannel(onEvent : ( event : PusherEvent) ->  Unit) {
+    override fun subscribeToEvent(onEvent : ( event : PusherEvent) ->  Unit) {
         if( channel == null ){
             throw Exception("No initialized channel");
         }
         channel!!.bind("my-event" ,  SuscriptionEventListenerImpl( onEvent )  );
+
     }
 }
