@@ -1,7 +1,7 @@
 package com.org.zendesk.messaging
 
 import com.pusher.client.channel.PusherEvent
-interface ZendeskMessaging {
+internal interface ZendeskMessaging {
     fun initializeObjects();
     fun initializeConnection();
     fun subscribeToChannel();

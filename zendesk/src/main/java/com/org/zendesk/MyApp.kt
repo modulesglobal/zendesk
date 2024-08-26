@@ -11,6 +11,12 @@ import androidx.startup.Initializer
 import com.org.zendesk.messaging.ZendeskMessaging
 import com.org.zendesk.messaging.ZendeskMessagingImpl
 
+object  ZendeskGlobal {
+     fun notifyToUser(){
+
+     }
+}
+
 private object ModalHelper {
     private var alertDialog: AlertDialog? = null
     fun showModal(activity: Activity) {
@@ -38,14 +44,14 @@ private object ModalHelper {
 
 class MyApp : Initializer<Unit> {
 
-    var zendeskMessaging: ZendeskMessaging? = null
+   private var zendeskMessaging: ZendeskMessaging? = null
     override fun create(context: Context) {
         listenLifeCicyleOfApp( context );
         zendeskMessaging = ZendeskMessagingImpl();
         zendeskMessaging!!.initializeObjects();
         zendeskMessaging!!.initializeConnection();
     }
-    override fun dependencies(): MutableList<Class<out Initializer<*>>> {
+    override  fun dependencies(): MutableList<Class<out Initializer<*>>> {
         return kotlin.collections.mutableListOf();
     }
 

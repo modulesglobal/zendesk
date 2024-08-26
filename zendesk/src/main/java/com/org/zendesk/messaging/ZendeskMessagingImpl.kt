@@ -6,10 +6,9 @@ import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
 import com.pusher.client.channel.Channel
 import com.pusher.client.channel.PusherEvent
-import com.pusher.client.connection.ConnectionEventListener
-import com.pusher.client.connection.ConnectionStateChange
 
-class ZendeskMessagingImpl() : ZendeskMessaging {
+
+internal  class ZendeskMessagingImpl() : ZendeskMessaging {
 
     var pusherOptions : PusherOptions? = null;
     var pusher : Pusher? = null;
