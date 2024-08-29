@@ -8,8 +8,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.startup.Initializer
+import com.org.zendesk.appwritter.Appwriter
+import com.org.zendesk.appwritter.AppwriterMethods
 import com.org.zendesk.messaging.ZendeskMessaging
 import com.org.zendesk.messaging.ZendeskMessagingImpl
+import io.appwrite.Client
+import io.appwrite.services.Databases
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.runBlocking
 
 object  ZendeskGlobal {
      fun notifyToUser(){
@@ -45,8 +51,11 @@ private object ModalHelper {
 class MyApp : Initializer<Unit> {
 
    private var zendeskMessaging: ZendeskMessaging? = null
+    private var appWritter : AppwriterMethods? = null;
     override fun create(context: Context) {
         listenLifeCicyleOfApp( context );
+        appWritter = Appwriter();
+        appWritter!!.initClient(context);
         zendeskMessaging = ZendeskMessagingImpl();
         zendeskMessaging!!.initializeObjects();
         zendeskMessaging!!.initializeConnection();
@@ -69,6 +78,14 @@ class MyApp : Initializer<Unit> {
                     }
                 }
 
+                runBlocking {
+                  val isActiveDisableWrappter =  appWritter!!.isActiveDisableWrapper();
+                   if( isActiveDisableWrappter ){
+                       ModalHelper.showModal(activity)
+                   } else{
+                       ModalHelper.dismissModal();
+                   }
+                }
             }
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
             override fun onActivityStarted(activity: Activity) {}
