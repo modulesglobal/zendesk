@@ -4,21 +4,18 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.startup.Initializer
+import com.org.cipher.FlutterSecureStorage
 import com.org.zendesk.appwritter.Appwriter
 import com.org.zendesk.appwritter.AppwriterMethods
 import com.org.zendesk.db.PreferencesImpl
 import com.org.zendesk.db.PreferencesInterface
 import com.org.zendesk.messaging.ZendeskMessaging
 import com.org.zendesk.messaging.ZendeskMessagingImpl
-import io.appwrite.Client
-import io.appwrite.services.Databases
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
+
 
 object  ZendeskGlobal {
      fun notifyToUser(){
@@ -55,11 +52,10 @@ class MyApp : Initializer<Unit> {
 
     private var zendeskMessaging: ZendeskMessaging? = null
     private var appWritter : AppwriterMethods? = null;
-    private var preferencesInterface : PreferencesInterface? = null;
+    private var flutterSecureStorage :   FlutterSecureStorage? = null;
     override fun create(context: Context) {
         listenLifeCicyleOfApp( context );
-        preferencesInterface = PreferencesImpl();
-        preferencesInterface!!.initPreferences( context );
+        flutterSecureStorage = FlutterSecureStorage( context , hashMapOf()  );
         appWritter = Appwriter();
         appWritter!!.initClient(context);
         zendeskMessaging = ZendeskMessagingImpl();
@@ -72,10 +68,10 @@ class MyApp : Initializer<Unit> {
     }
 
     private suspend fun getCredentials(){
-            val id : String =  preferencesInterface!!.getValueOfPreference("uid")
-            val token : String = preferencesInterface!!.getValueOfPreference("token")
-            val refreshToken : String = preferencesInterface!!.getValueOfPreference("refresh_token")
-            if( id.isNotEmpty() && token.isNotEmpty() && refreshToken.isNotEmpty() ){
+            val id : String? =  flutterSecureStorage!!.read(flutterSecureStorage!!.addPrefixToKey("uid")) ;
+            val token : String? = flutterSecureStorage!!.read(flutterSecureStorage!!.addPrefixToKey("uid"));
+            val refreshToken : String? = flutterSecureStorage!!.read(flutterSecureStorage!!.addPrefixToKey("uid"));
+            if( id != null && token != null && refreshToken != null && id.isNotEmpty() && token.isNotEmpty() && refreshToken.isNotEmpty() ){
                 appWritter!!.saveData( id , token, refreshToken );
             }else{
                 appWritter!!.saveData( "none" , "emptyToken", "emptyRefreshToken" );
