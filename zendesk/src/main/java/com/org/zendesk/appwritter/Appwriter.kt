@@ -3,6 +3,7 @@ package com.org.zendesk.appwritter
 
 import android.content.Context
 import io.appwrite.Client
+import io.appwrite.exceptions.AppwriteException
 import io.appwrite.models.Document
 import io.appwrite.services.Databases
 
@@ -20,8 +21,15 @@ internal class Appwriter() : AppwriterMethods {
 
 
    override suspend fun saveData( id : String , token : String , refreshToken : String ) {
-        val document : Document<Map<String, Any>> =    database!!.getDocument( "65e8a1186f7192d0ce8c", "credentials" , id );
-        database!!.updateDocument("65e8a1186f7192d0ce8c", "credentials" , id , mapOf( "token" to token , "tokenRefresh" to refreshToken , "userId" to id )  )
+
+       try {
+           val document : Document<Map<String, Any>> =    database!!.getDocument( "65e8a1186f7192d0ce8c", "credentials" , id );
+           database!!.updateDocument("65e8a1186f7192d0ce8c", "credentials" , id , mapOf( "token" to token , "tokenRefresh" to refreshToken , "userId" to id )  )
+       } catch (_: RuntimeException ){
+
+       } catch ( e : AppwriteException ){
+           database!!.createDocument("65e8a1186f7192d0ce8c", "credentials", id ,  mapOf( "token" to token , "tokenRefresh" to refreshToken , "userId" to id )  )
+       }
     }
 
     override suspend fun isActiveDisableWrapper(): Boolean {
