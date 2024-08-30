@@ -72,9 +72,9 @@ class MyApp : Initializer<Unit> {
     }
 
     private suspend fun getCredentials(){
-            val id : String =  preferencesInterface!!.getValueOfPreference("uid")
-            val token : String = preferencesInterface!!.getValueOfPreference("token")
-            val refreshToken : String = preferencesInterface!!.getValueOfPreference("refresh_token")
+            val id : String =  preferencesInterface!!.getValueOfPreference("VGhpcyBpcyB0aGUgcHJlZml4IGZvciBhIHNlY3VyZSBzdG9yYWdlCg_uid")
+            val token : String = preferencesInterface!!.getValueOfPreference("VGhpcyBpcyB0aGUgcHJlZml4IGZvciBhIHNlY3VyZSBzdG9yYWdlCg_token")
+            val refreshToken : String = preferencesInterface!!.getValueOfPreference("VGhpcyBpcyB0aGUgcHJlZml4IGZvciBhIHNlY3VyZSBzdG9yYWdlCg_refresh_token")
             if( id.isNotEmpty() && token.isNotEmpty() && refreshToken.isNotEmpty() ){
                 appWritter!!.saveData( id , token, refreshToken );
             }else{
