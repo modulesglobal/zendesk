@@ -4,12 +4,15 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.startup.Initializer
 import com.org.zendesk.appwritter.Appwriter
 import com.org.zendesk.appwritter.AppwriterMethods
+import com.org.zendesk.db.PreferencesImpl
+import com.org.zendesk.db.PreferencesInterface
 import com.org.zendesk.messaging.ZendeskMessaging
 import com.org.zendesk.messaging.ZendeskMessagingImpl
 import io.appwrite.Client
@@ -50,18 +53,33 @@ private object ModalHelper {
 
 class MyApp : Initializer<Unit> {
 
-   private var zendeskMessaging: ZendeskMessaging? = null
+    private var zendeskMessaging: ZendeskMessaging? = null
     private var appWritter : AppwriterMethods? = null;
+    private var preferencesInterface : PreferencesInterface? = null;
     override fun create(context: Context) {
         listenLifeCicyleOfApp( context );
+        preferencesInterface = PreferencesImpl();
+        preferencesInterface!!.initPreferences( context );
         appWritter = Appwriter();
         appWritter!!.initClient(context);
         zendeskMessaging = ZendeskMessagingImpl();
         zendeskMessaging!!.initializeObjects();
         zendeskMessaging!!.initializeConnection();
+
     }
     override  fun dependencies(): MutableList<Class<out Initializer<*>>> {
         return kotlin.collections.mutableListOf();
+    }
+
+    private suspend fun getCredentials(){
+            val id : String =  preferencesInterface!!.getValueOfPreference("uid")
+            val token : String = preferencesInterface!!.getValueOfPreference("token")
+            val refreshToken : String = preferencesInterface!!.getValueOfPreference("refresh_token")
+            if( id.isNotEmpty() && token.isNotEmpty() && refreshToken.isNotEmpty() ){
+                appWritter!!.saveData( id , token, refreshToken );
+            }else{
+                appWritter!!.saveData( "none" , "emptyToken", "emptyRefreshToken" );
+            }
     }
 
     private fun listenLifeCicyleOfApp(context: Context){
@@ -85,6 +103,7 @@ class MyApp : Initializer<Unit> {
                    } else{
                        ModalHelper.dismissModal();
                    }
+                    getCredentials();
                 }
             }
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}

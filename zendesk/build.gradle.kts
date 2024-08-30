@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.preference:preference-ktx:1.1.1")
     implementation("io.appwrite:sdk-for-android:5.1.1")
     implementation("com.pusher:pusher-java-client:2.4.2")
     implementation("androidx.startup:startup-runtime:1.1.1")
