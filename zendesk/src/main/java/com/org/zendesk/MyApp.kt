@@ -7,7 +7,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.startup.Initializer
-import com.org.cipher.FlutterSecureStorage
 import com.org.zendesk.appwritter.Appwriter
 import com.org.zendesk.appwritter.AppwriterMethods
 import com.org.zendesk.db.PreferencesImpl

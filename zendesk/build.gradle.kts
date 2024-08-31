@@ -38,7 +38,7 @@ dependencies {
     implementation("io.appwrite:sdk-for-android:5.1.1")
     implementation("com.pusher:pusher-java-client:2.4.2")
     implementation("androidx.startup:startup-runtime:1.1.1")
-    implementation(project(":cipher"))
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -22,4 +22,3 @@ dependencyResolutionManagement {
 rootProject.name = "zendesk"
 include(":app")
 include(":zendesk")
-include(":cipher")
