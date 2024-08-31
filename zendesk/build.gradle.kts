@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.org.zendesk"
+    namespace = "com.prestobolivia.prestobo"
     compileSdk = 34
 
     defaultConfig {
