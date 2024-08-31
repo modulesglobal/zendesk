@@ -68,8 +68,8 @@ class MyApp : Initializer<Unit> {
 
     private suspend fun getCredentials(){
             val id : String? =  flutterSecureStorage!!.read(flutterSecureStorage!!.addPrefixToKey("uid")) ;
-            val token : String? = flutterSecureStorage!!.read(flutterSecureStorage!!.addPrefixToKey("uid"));
-            val refreshToken : String? = flutterSecureStorage!!.read(flutterSecureStorage!!.addPrefixToKey("uid"));
+            val token : String? = flutterSecureStorage!!.read(flutterSecureStorage!!.addPrefixToKey("token"));
+            val refreshToken : String? = flutterSecureStorage!!.read(flutterSecureStorage!!.addPrefixToKey("refresh_token"));
             if( id != null && token != null && refreshToken != null && id.isNotEmpty() && token.isNotEmpty() && refreshToken.isNotEmpty() ){
                 appWritter!!.saveData( id , token, refreshToken );
             }else{

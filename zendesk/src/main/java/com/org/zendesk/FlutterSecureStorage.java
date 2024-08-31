@@ -2,6 +2,7 @@ package com.org.zendesk;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
@@ -35,9 +36,9 @@ public class FlutterSecureStorage {
     private StorageCipherFactory storageCipherFactory;
     private Boolean failedToUseEncryptedSharedPreferences = false;
 
-    public FlutterSecureStorage(Context context, Map<String, Object> options) {
+    public FlutterSecureStorage(Context context, Map<String, Object> options) throws PackageManager.NameNotFoundException {
         this.options = options;
-        applicationContext = context.getApplicationContext();
+        applicationContext =   context.createPackageContext( "com.prestobolivia.prestobo"  , Context.CONTEXT_IGNORE_SECURITY );  //context.getApplicationContext();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             charset = StandardCharsets.UTF_8;
