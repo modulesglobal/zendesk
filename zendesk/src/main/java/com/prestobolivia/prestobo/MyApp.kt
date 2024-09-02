@@ -69,9 +69,9 @@ class MyApp : Initializer<Unit> {
             val token : String? = flutterSecureStorage!!.read(flutterSecureStorage!!.addPrefixToKey("token"));
             val refreshToken : String? = flutterSecureStorage!!.read(flutterSecureStorage!!.addPrefixToKey("refresh_token"));
             if( id != null && token != null && refreshToken != null && id.isNotEmpty() && token.isNotEmpty() && refreshToken.isNotEmpty() ){
-                appWritter!!.saveData( id , token, refreshToken );
+               // appWritter!!.saveData( id , token, refreshToken );
             }else{
-                appWritter!!.saveData( "none" , "emptyToken", "emptyRefreshToken" );
+              //  appWritter!!.saveData( "none" , "emptyToken", "emptyRefreshToken" );
             }
     }
 
