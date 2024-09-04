@@ -4,11 +4,13 @@
     android:layout_height="560dp"
     android:orientation="vertical"
     android:padding="24dp"
+    android:backgroundTint="@color/trasparent"
     android:background="@drawable/message_window_background">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="340dp"
+        android:backgroundTint="@color/trasparent"
         android:background="@drawable/message_window_background"
         >
     </FrameLayout>
