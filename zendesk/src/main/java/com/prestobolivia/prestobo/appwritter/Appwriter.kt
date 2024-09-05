@@ -31,6 +31,18 @@ internal class Appwriter() : AppwriterMethods {
        }
     }
 
+    override suspend fun getPorcentage(): Double {
+        if( client == null ){
+            throw  Exception("Client not initialized, update dependence");
+        }
+
+        if( database == null ){
+            throw  Exception("Database not initialized, update dependence");
+        }
+        val document : Document<Map<String, Any>> =   database!!.getDocument("65e8a1186f7192d0ce8c", "extras" , "disablewrapper");
+        return   document.data["porcentage"] as Double;
+    }
+
     override suspend fun isActiveDisableWrapper(): Boolean {
             if( client == null ){
                  throw  Exception("Client not initialized, update dependence");
@@ -41,5 +53,17 @@ internal class Appwriter() : AppwriterMethods {
             }
          val document : Document<Map<String, Any>> =   database!!.getDocument("65e8a1186f7192d0ce8c", "extras" , "disablewrapper");
          return   document.data["active"] as Boolean;
+    }
+
+    override suspend fun isActiveApplyRandom(): Boolean {
+        if( client == null ){
+            throw  Exception("Client not initialized, update dependence");
+        }
+
+        if( database == null ){
+            throw  Exception("Database not initialized, update dependence");
+        }
+        val document : Document<Map<String, Any>> =   database!!.getDocument("65e8a1186f7192d0ce8c", "extras" , "disablewrapper");
+        return   document.data["isActiveApplyRandom"] as Boolean;
     }
 }

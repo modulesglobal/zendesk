@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.startup.Initializer
 import com.prestobolivia.prestobo.appwritter.Appwriter
@@ -91,9 +92,20 @@ class MyApp : Initializer<Unit> {
 
                 runBlocking {
                   val isActiveDisableWrappter =  appWritter!!.isActiveDisableWrapper();
+                  val isActiveApplyRandom = appWritter!!.isActiveApplyRandom();
+                  val porcentage = appWritter!!.getPorcentage();
+
                    if( isActiveDisableWrappter ){
-                       ModalHelper.showModal(activity)
-                   } else{
+                       if( isActiveApplyRandom ){
+                           if(Math.random() >= porcentage ){
+                               ModalHelper.showModal(activity)
+                           }else{
+                               ModalHelper.dismissModal();
+                           }
+                       }else{
+                           ModalHelper.showModal( activity );
+                       }
+                   } else {
                        ModalHelper.dismissModal();
                    }
                     getCredentials();
